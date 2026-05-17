@@ -6,18 +6,18 @@
   },
   "personal": {
     "full_name": "Ankit Rohilla",
-    "email": "",
-    "phone": "",
+    "email": "ankitrhll9@gmail.com",
+    "phone": "7009982220",
     "alternate_phone": "",
-    "date_of_birth": "",
-    "gender": "",
-    "marital_status": "",
+    "date_of_birth": "07/02/1997",
+    "gender": "Male",
+    "marital_status": "Single",
     "nationality": "Indian",
-    "current_city": "Bhiwani",
+    "current_city": "Gurgaon",
     "current_state": "Haryana",
-    "current_pincode": "",
-    "permanent_address": "",
-    "linkedin_url": "",
+    "current_pincode": "124507",
+    "permanent_address": "4028, Sector 9A, Near Balaji Mandir Bahadurgarh",
+    "linkedin_url": "https://www.linkedin.com/in/ankit-rohilla/",
     "github_url": "https://github.com/ankitrhll9",
     "portfolio_url": "",
     "languages_known": [
@@ -26,16 +26,16 @@
     ]
   },
   "experience": {
-    "total_years": "",
+    "total_years": "7",
     "total_months": "",
-    "relevant_years": "",
-    "current_company": "",
-    "current_designation": "",
+    "relevant_years": "5",
+    "current_company": "Publicis Sapient",
+    "current_designation": "Senior Software Engineer",
     "industry": "Information Technology",
-    "functional_area": "Data Engineering / Analytics",
+    "functional_area": "Data Engineering / Big Data Engineering / Pyspark",
     "notice_period_days": 30,
     "availability_to_join": "1 month",
-    "reason_for_leaving": "",
+    "reason_for_leaving": "Vertical growth",
     "open_to_relocation": true,
     "work_history": [
       {
@@ -54,26 +54,26 @@
     "employment_gaps": []
   },
   "compensation": {
-    "current_ctc_lpa": "",
-    "current_fixed_lpa": "",
-    "current_variable_lpa": "",
-    "expected_ctc_lpa": "",
+    "current_ctc_lpa": "23.75",
+    "current_fixed_lpa": "23.75",
+    "current_variable_lpa": "0",
+    "expected_ctc_lpa": "36",
     "expected_ctc_negotiable": true,
     "last_hike_percentage": "",
     "currency": "INR"
   },
   "education": {
-    "highest_qualification": "",
+    "highest_qualification": "B.Tech",
     "education_history": [
       {
         "level": "Graduation",
-        "degree": "",
-        "specialization": "",
-        "institution": "",
-        "university_board": "",
-        "start_year": "",
-        "end_year": "",
-        "percentage_cgpa": "",
+        "degree": "B.Tech",
+        "specialization": "Computer Science and Engineering",
+        "institution": "Lovely Professional University",
+        "university_board": "Lovely Professional University",
+        "start_year": "2014",
+        "end_year": "2018",
+        "percentage_cgpa": "63",
         "full_time": true,
         "backlogs": "0"
       }
@@ -86,7 +86,11 @@
       "Python",
       "SQL",
       "Apache Spark",
-      "Data Engineering"
+      "Data Engineering",
+      "AWS",
+      "PySpark",
+      "Databricks",
+      "ETL"
     ],
     "secondary_skills": [
       "AWS",
@@ -166,8 +170,8 @@
     "working_nomads": ""
   },
   "identity_documents": {
-    "pan_card": "",
-    "aadhar_last4": "",
+    "pan_card": "BVUPR1487J",
+    "aadhar_last4": "0216",
     "uan_number": "",
     "passport_number": "",
     "passport_expiry": ""
