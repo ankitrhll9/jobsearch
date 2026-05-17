@@ -180,7 +180,9 @@
 
       <!-- PROFILE EDITOR -->
       <article class="card s12" id="profile">
-        <div class="sec-hd"><div><h3>Quick profile editor</h3><p>Edit the most commonly asked fields. Export to update profile.json in your repo.</p></div></div>
+        <div class="sec-hd"><div><h3>Quick profile editor</h3><p>Data auto-loaded from <code>profile.json</code> in your repo. Edit below and export to update.</p></div></div>
+        <p id="profileLoadStatus" style="font-size:var(--text-xs);margin-bottom:var(--sp4);">Loading profile.json...</p>
+        <div id="profileInfoCard" style="display:none;margin-bottom:var(--sp5);"></div>
         <div class="two">
           <div class="fg"><label>Full name</label><input id="pName" value="Ankit Rohilla"></div>
           <div class="fg"><label>Email</label><input id="pEmail" placeholder="yourname@email.com"></div>
@@ -255,16 +257,73 @@ const PORTALS = [
 ];
 
 let apps = JSON.parse(localStorage.getItem('ja_apps') || '[]');
+let resumeFile = null;
+let profileData = {};
+
 const REQUIRED = [
-  { id:'pEmail', label:'Primary email' },
-  { id:'pPhone', label:'Mobile number' },
-  { id:'pExp', label:'Total work experience' },
-  { id:'pCCTC', label:'Current CTC' },
-  { id:'pECTC', label:'Expected CTC' },
-  { id:'pCompany', label:'Current company' },
-  { id:'pRole', label:'Current designation' },
-  { id:'pEdu', label:'Highest qualification' }
+  { id:'pEmail', label:'Primary email', path:'personal.email' },
+  { id:'pPhone', label:'Mobile number', path:'personal.phone' },
+  { id:'pExp', label:'Total work experience', path:'experience.total_years' },
+  { id:'pCCTC', label:'Current CTC', path:'compensation.current_ctc_lpa' },
+  { id:'pECTC', label:'Expected CTC', path:'compensation.expected_ctc_lpa' },
+  { id:'pCompany', label:'Current company', path:'experience.current_company' },
+  { id:'pRole', label:'Current designation', path:'experience.current_designation' },
+  { id:'pEdu', label:'Highest qualification', path:'education.highest_qualification' }
 ];
+
+// Load profile.json and populate all form fields
+async function loadProfile() {
+  try {
+    const res = await fetch('./profile.json?nocache=' + Date.now());
+    profileData = await res.json();
+    populateForm(profileData);
+    document.getElementById('profileLoadStatus').textContent = '✅ profile.json loaded successfully from repo.';
+    document.getElementById('profileLoadStatus').style.color = 'var(--suc)';
+  } catch(e) {
+    document.getElementById('profileLoadStatus').textContent = '⚠ Could not auto-load profile.json. Fill fields manually below or run via Live Server.';
+    document.getElementById('profileLoadStatus').style.color = 'var(--warn)';
+  }
+  renderMissing();
+}
+
+function get(obj, path) {
+  return path.split('.').reduce((o, k) => (o && o[k] !== undefined ? o[k] : ''), obj);
+}
+
+function populateForm(p) {
+  const setVal = (id, val) => { const el = document.getElementById(id); if(el && val) el.value = val; };
+  setVal('pName', get(p,'personal.full_name'));
+  setVal('pEmail', get(p,'personal.email'));
+  setVal('pPhone', get(p,'personal.phone'));
+  setVal('pExp', get(p,'experience.total_years') ? get(p,'experience.total_years') + ' years' : '');
+  setVal('pCCTC', get(p,'compensation.current_ctc_lpa'));
+  setVal('pECTC', get(p,'compensation.expected_ctc_lpa'));
+  setVal('pNotice', get(p,'experience.notice_period_days') ? get(p,'experience.notice_period_days') + ' days' : '');
+  setVal('pCompany', get(p,'experience.current_company'));
+  setVal('pRole', get(p,'experience.current_designation'));
+  setVal('pEdu', get(p,'education.highest_qualification'));
+  const locs = get(p,'preferences.preferred_locations');
+  if(locs && locs.length) setVal('pLoc', locs.join(', '));
+  setVal('pHeadline', get(p,'application_defaults.headline'));
+  setVal('pSummary', get(p,'application_defaults.profile_summary'));
+  setVal('pCover', get(p,'application_defaults.cover_letter_template'));
+  // Show profile info card
+  const info = document.getElementById('profileInfoCard');
+  if(info) {
+    info.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp3);margin-bottom:var(--sp4);">
+        <div class="kpi"><small>Name</small><strong>${get(p,'personal.full_name')||'—'}</strong></div>
+        <div class="kpi"><small>Company</small><strong>${get(p,'experience.current_company')||'—'}</strong></div>
+        <div class="kpi"><small>Designation</small><strong>${get(p,'experience.current_designation')||'—'}</strong></div>
+        <div class="kpi"><small>Total Exp</small><strong>${get(p,'experience.total_years')||'—'} yrs</strong></div>
+        <div class="kpi"><small>Current CTC</small><strong>₹${get(p,'compensation.current_ctc_lpa')||'—'} LPA</strong></div>
+        <div class="kpi"><small>Expected CTC</small><strong>₹${get(p,'compensation.expected_ctc_lpa')||'—'} LPA</strong></div>
+      </div>
+      <p style="font-size:var(--text-xs);color:var(--muted);">📧 ${get(p,'personal.email')} &nbsp;|&nbsp; 📞 ${get(p,'personal.phone')} &nbsp;|&nbsp; 📍 ${get(p,'personal.current_city')}, ${get(p,'personal.current_state')} &nbsp;|&nbsp; 🔔 Notice: ${get(p,'experience.notice_period_days')} days</p>
+    `;
+    info.style.display = 'block';
+  }
+}
 
 function renderPortals(){
   const today = new Date().toDateString();
@@ -298,12 +357,12 @@ function renderApplications(){
       document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
       t.classList.add('active');
       document.querySelectorAll('.portal-tab-content').forEach(x => x.classList.remove('show'));
-      document.getElementById('ptab-'+p.replace(/\s/g,'_')).classList.add('show');
+      document.getElementById('ptab-'+p.replace(/[\s.]/g,'_')).classList.add('show');
     };
     tabs.appendChild(t);
     const div = document.createElement('div');
     div.className = 'portal-tab-content' + (i===0?' show':'');
-    div.id = 'ptab-'+p.replace(/\s/g,'_');
+    div.id = 'ptab-'+p.replace(/[\s.]/g,'_');
     const filtered = p==='All' ? todayApps : todayApps.filter(a=>a.portal===p);
     div.innerHTML = `<div class="ovx"><table><thead><tr><th>Portal</th><th>Company</th><th>Role</th><th>Status</th><th>Time</th></tr></thead><tbody>${
       filtered.map(a=>`<tr><td>${a.portal}</td><td>${a.company||'—'}</td><td>${a.role||'—'}</td><td>${badge(a.status)}</td><td>${a.applied_at||'—'}</td></tr>`).join('')
@@ -325,7 +384,7 @@ function renderMissing(){
   const missing = REQUIRED.filter(({id}) => !document.getElementById(id)?.value?.trim());
   document.getElementById('kpiMissing').textContent = missing.length;
   document.getElementById('missingList').innerHTML = missing.length
-    ? missing.map(f=>`<div class="list-item"><div><strong>${f.label}</strong><span>AI should stop and ask you to update profile.json for this field before submitting.</span></div><span class="badge r">Missing</span></div>`).join('')
+    ? missing.map(f=>`<div class="list-item"><div><strong>${f.label}</strong><span>Update profile.json key: <code>${f.path}</code></span></div><span class="badge r">Missing</span></div>`).join('')
     : '<p style="color:var(--suc);font-size:var(--text-sm)">✅ All common fields filled! AI can proceed with applications.</p>';
 }
 
@@ -337,18 +396,17 @@ function download(name, text){
 function buildProfile(){
   return {
     _meta: { version:'1.0', last_updated: new Date().toISOString(), instructions:'Fill all fields. AI must pause and ask user to update before submitting if any required field is blank.' },
-    personal: { full_name: v('pName'), email: v('pEmail'), phone: v('pPhone'), nationality:'Indian', current_city:'Bhiwani', current_state:'Haryana', github_url:'https://github.com/ankitrhll9', languages_known:['Hindi','English'] },
-    experience: { total_experience: v('pExp'), current_company: v('pCompany'), current_designation: v('pRole'), notice_period_days: v('pNotice'), open_to_relocation: true },
+    personal: { full_name: v('pName'), email: v('pEmail'), phone: v('pPhone'), nationality:'Indian', current_city: get(profileData,'personal.current_city'), current_state: get(profileData,'personal.current_state'), github_url: get(profileData,'personal.github_url'), linkedin_url: get(profileData,'personal.linkedin_url'), languages_known: get(profileData,'personal.languages_known')||['Hindi','English'] },
+    experience: { total_years: v('pExp').replace(/[^0-9.]/g,''), current_company: v('pCompany'), current_designation: v('pRole'), notice_period_days: v('pNotice').replace(/[^0-9]/g,''), open_to_relocation: true },
     compensation: { current_ctc_lpa: v('pCCTC'), expected_ctc_lpa: v('pECTC'), expected_ctc_negotiable: true, currency:'INR' },
-    education: { highest_qualification: v('pEdu') },
-    preferences: { preferred_locations: v('pLoc').split(',').map(x=>x.trim()), work_mode_preference:['Remote','Hybrid'], employment_type_preference:'Full Time' },
+    education: { highest_qualification: v('pEdu'), education_history: get(profileData,'education.education_history')||[] },
+    preferences: { preferred_locations: v('pLoc').split(',').map(x=>x.trim()), work_mode_preference: get(profileData,'preferences.work_mode_preference')||['Remote','Hybrid'], employment_type_preference:'Full Time' },
     application_defaults: { headline: v('pHeadline'), profile_summary: v('pSummary'), cover_letter_template: v('pCover') },
-    skills: { primary_skills:['Python','SQL','Apache Spark','Data Engineering'], secondary_skills:['AWS','PySpark','Databricks','ETL'], programming_languages:['Python','SQL','Spark SQL'], cloud_platforms:['AWS'], tools_technologies:['Apache Spark','AWS Athena','AWS S3','AWS EMR','AWS EC2','Databricks'] }
+    skills: get(profileData,'skills') || {}
   };
 }
 
 function v(id){ return document.getElementById(id)?.value?.trim()||''; }
-
 function setActive(el){ document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active')); el.classList.add('active'); }
 
 document.getElementById('btnTheme').addEventListener('click', ()=>{
@@ -372,8 +430,14 @@ document.getElementById('btnCheck').addEventListener('click', ()=>{
 });
 
 document.getElementById('resumeFile').addEventListener('change', e=>{
-  const f = e.target.files[0];
-  document.getElementById('resumeStatus').textContent = f ? `Selected: ${f.name}` : 'No file selected yet.';
+  resumeFile = e.target.files[0];
+  if(resumeFile){
+    document.getElementById('resumeStatus').textContent = `✅ Resume loaded in memory: ${resumeFile.name} (${(resumeFile.size/1024).toFixed(1)} KB). This file stays in your browser session only — to persist it, commit it to the repo manually.`;
+    document.getElementById('resumeStatus').style.color = 'var(--suc)';
+    if(profileData && profileData.application_defaults){
+      profileData.application_defaults.resume_file_name = resumeFile.name;
+    }
+  }
 });
 
 document.getElementById('btnAddApp').addEventListener('click', ()=>{ document.getElementById('modal').style.display='flex'; });
@@ -396,7 +460,10 @@ document.getElementById('btnSimulate').addEventListener('click', ()=>{
 
 document.getElementById('btnRecheck').addEventListener('click', renderMissing);
 
-renderPortals(); renderApplications(); renderMissing();
+// Init
+loadProfile();
+renderPortals();
+renderApplications();
 </script>
 </body>
 </html>
