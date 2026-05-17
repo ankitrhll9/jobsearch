@@ -1,0 +1,175 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "last_updated": "",
+    "instructions": "Fill all fields accurately. AI must pause and ask user to update this file if any required field is blank or ambiguous before submitting an application."
+  },
+  "personal": {
+    "full_name": "Ankit Rohilla",
+    "email": "",
+    "phone": "",
+    "alternate_phone": "",
+    "date_of_birth": "",
+    "gender": "",
+    "marital_status": "",
+    "nationality": "Indian",
+    "current_city": "Bhiwani",
+    "current_state": "Haryana",
+    "current_pincode": "",
+    "permanent_address": "",
+    "linkedin_url": "",
+    "github_url": "https://github.com/ankitrhll9",
+    "portfolio_url": "",
+    "languages_known": [
+      "Hindi",
+      "English"
+    ]
+  },
+  "experience": {
+    "total_years": "",
+    "total_months": "",
+    "relevant_years": "",
+    "current_company": "",
+    "current_designation": "",
+    "industry": "Information Technology",
+    "functional_area": "Data Engineering / Analytics",
+    "notice_period_days": 30,
+    "availability_to_join": "1 month",
+    "reason_for_leaving": "",
+    "open_to_relocation": true,
+    "work_history": [
+      {
+        "company": "",
+        "designation": "",
+        "department": "",
+        "start_month_year": "",
+        "end_month_year": "Present",
+        "currently_working": true,
+        "employment_type": "Full Time",
+        "location": "",
+        "roles_responsibilities": "",
+        "key_achievements": ""
+      }
+    ],
+    "employment_gaps": []
+  },
+  "compensation": {
+    "current_ctc_lpa": "",
+    "current_fixed_lpa": "",
+    "current_variable_lpa": "",
+    "expected_ctc_lpa": "",
+    "expected_ctc_negotiable": true,
+    "last_hike_percentage": "",
+    "currency": "INR"
+  },
+  "education": {
+    "highest_qualification": "",
+    "education_history": [
+      {
+        "level": "Graduation",
+        "degree": "",
+        "specialization": "",
+        "institution": "",
+        "university_board": "",
+        "start_year": "",
+        "end_year": "",
+        "percentage_cgpa": "",
+        "full_time": true,
+        "backlogs": "0"
+      }
+    ],
+    "certifications": [],
+    "internships": []
+  },
+  "skills": {
+    "primary_skills": [
+      "Python",
+      "SQL",
+      "Apache Spark",
+      "Data Engineering"
+    ],
+    "secondary_skills": [
+      "AWS",
+      "PySpark",
+      "Databricks",
+      "ETL"
+    ],
+    "programming_languages": [
+      "Python",
+      "SQL",
+      "Spark SQL"
+    ],
+    "databases": [
+      "MySQL",
+      "PostgreSQL",
+      "Redshift",
+      "Hive"
+    ],
+    "cloud_platforms": [
+      "AWS"
+    ],
+    "tools_technologies": [
+      "Apache Spark",
+      "AWS Athena",
+      "AWS S3",
+      "AWS EMR",
+      "AWS EC2",
+      "Databricks"
+    ],
+    "frameworks": []
+  },
+  "preferences": {
+    "desired_job_titles": [
+      "Data Engineer",
+      "Senior Data Engineer",
+      "Data Engineering Lead"
+    ],
+    "preferred_locations": [
+      "Bengaluru",
+      "Hyderabad",
+      "Pune",
+      "Gurugram",
+      "Remote"
+    ],
+    "work_mode_preference": [
+      "Remote",
+      "Hybrid"
+    ],
+    "employment_type_preference": "Full Time",
+    "willing_to_travel": true,
+    "travel_percentage": "0-25%"
+  },
+  "screening": {
+    "work_authorization": "Indian Citizen",
+    "shift_flexibility": "General / Day shift",
+    "category": "General",
+    "differently_abled": false,
+    "disability_details": "",
+    "ex_serviceman": false
+  },
+  "application_defaults": {
+    "resume_file_name": "",
+    "headline": "Data Engineer | Python | SQL | Apache Spark | AWS | Databricks",
+    "profile_summary": "Experienced Data Engineer with hands-on expertise in building scalable data pipelines using Python, SQL, Apache Spark, and AWS services (Athena, S3, EMR, EC2). Proficient in Databricks, ETL design, and cloud-based data warehouse solutions. Passionate about delivering reliable and performant data infrastructure.",
+    "cover_letter_template": "I am excited to apply for the [JOB_TITLE] role at [COMPANY]. With [TOTAL_EXP] years of experience in Data Engineering, I am confident I can add immediate value to your team."
+  },
+  "portal_profiles": {
+    "naukri": "",
+    "instahyre": "",
+    "linkedin": "",
+    "indeed": "",
+    "shine": "",
+    "timesjobs": "",
+    "wellfound": "",
+    "remotive": "",
+    "remote_co": "",
+    "working_nomads": ""
+  },
+  "identity_documents": {
+    "pan_card": "",
+    "aadhar_last4": "",
+    "uan_number": "",
+    "passport_number": "",
+    "passport_expiry": ""
+  }
+}

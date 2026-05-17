@@ -1,0 +1,28 @@
+{
+  "_meta": {
+    "description": "Daily job application log. One entry per application. Update status as you hear back.",
+    "statuses": [
+      "Applied",
+      "Screening",
+      "Interview Scheduled",
+      "Rejected",
+      "Offer",
+      "Saved",
+      "Withdrawn"
+    ]
+  },
+  "applications": [
+    {
+      "id": "APP-001",
+      "date": "2026-05-17",
+      "portal": "Naukri.com",
+      "company": "",
+      "role": "",
+      "job_url": "",
+      "applied_at": "",
+      "status": "Applied",
+      "resume_version": "",
+      "notes": ""
+    }
+  ]
+}
